@@ -177,7 +177,6 @@ int leesGeldigGetal(const char* prompt) {
         printf("Dat is geen geldig getal!\n");
     }
 }
-
 void opdracht4(void) {
     int worpenPerBeurt;
     int aantalBeurten = 10;
