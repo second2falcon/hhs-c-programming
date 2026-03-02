@@ -61,12 +61,96 @@ void opdracht3() {
 }
 
 void opdracht4() {
+    struct Match {
+        char location[6];    // "Thuis" of "Uit"
+        int goals_for;
+        int goals_against;
+        char tegenstander[50];
+    };
 
+    struct Match matches[36];
+    int count = 0;
+
+    FILE* fp = fopen("uitslagen.txt", "r");
+    if (fp == NULL) {
+        printf("Cannot open file!\n");
+        return;
+    }
+
+    while (fscanf(fp, "%s %d - %d %s",
+        matches[count].location,
+        &matches[count].goals_for,
+        &matches[count].goals_against,
+        matches[count].tegenstander) == 4) {
+        count++;
+    }
+    fclose(fp);
+
+    for(int i = 0; i < count; i++) {
+        printf("Tegenstander: %s\n", matches[i].tegenstander);
+    }
+
+    typedef struct {
+        int games;
+        int points;
+        int goals_for;
+        int goals_against;
+    } Stats;
+
+    Stats stats = { 0, 0, 0, 0 };  // initialize everything to 0
+
+    for (int i = 0; i < count; i++) {
+        stats.games++;
+        stats.goals_for += matches[i].goals_for;
+        stats.goals_against += matches[i].goals_against;
+
+        if (matches[i].goals_for > matches[i].goals_against) {
+            stats.points += 3;  // win
+        }
+        else if (matches[i].goals_for == matches[i].goals_against) {
+            stats.points += 1;  // draw
+        }
+        // loss = 0 points
+    }
+
+    printf("%d wedstrijden, %d punten en doelsaldo (%d-%d)\n",
+        stats.games, stats.points,
+        stats.goals_for, stats.goals_against);
+
+    char search[50];
+    printf("Voer een tegenstander in: ");
+    scanf("%s", search);
+
+    int found = 0;
+    for (int i = 0; i < count; i++) {
+        if (strcmp(matches[i].tegenstander, search) == 0) {
+            found = 1;
+            if (matches[i].goals_for > matches[i].goals_against) {
+                printf("Won against %s (%d-%d)\n", search,
+                    matches[i].goals_for, matches[i].goals_against);
+            }
+            else if (matches[i].goals_for < matches[i].goals_against) {
+                printf("Lost against %s (%d-%d)\n", search,
+                    matches[i].goals_for, matches[i].goals_against);
+            }
+            else {
+                printf("Draw against %s (%d-%d)\n", search,
+                    matches[i].goals_for, matches[i].goals_against);
+            }
+            break;
+        }
+    }
+    if (!found) {
+        printf("Tegenstander '%s' bestaat niet.\n", search);
+    }
 }
 
 int main()
 {
-    opdracht3();
+	//opdracht1();
+	//opdracht2();
+ //   opdracht3();
+	opdracht4();
     return 0;
 }
 
