@@ -48,12 +48,12 @@ void opdracht2() {
     int lengte;
     printf("Voer de lengte van de array in: ");
 	scanf("%d", &lengte);
-    if (lengte > 100) {
-        printf("Lengte mag niet groter zijn dan 100.\n");
-        return;
-	}
- //   double array21[ARRAY_SIZE];
- //   double array22[ARRAY_SIZE];
+    //if (lengte > 100) {
+        //printf("Lengte mag niet groter zijn dan 100.\n");
+        //return;
+	//}
+    //double array21[ARRAY_SIZE];
+    //double array22[ARRAY_SIZE];
 	//double result[ARRAY_SIZE];
     double *array21 = malloc(lengte * sizeof(double));
     double *array22 = malloc(lengte * sizeof(double));
@@ -199,7 +199,7 @@ void opdracht4() {
 int main()
 {
     //opdracht1();
-    //opdracht2();
+    opdracht2();
     //opdracht3();
     //opdracht4();
 }
