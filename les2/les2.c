@@ -45,18 +45,36 @@ void opdracht2() {
 }
 
 void opdracht3() {
-    printf("Voer een brandstof in: \n");
-	char invoer[100];
-	char key[100];
-	char value[100];
-    scanf("%99[^\n]", invoer);
-    /*printf(invoer);*/
-    sscanf(invoer, "%s : %s", key, value);
-    if (!(strcmp(value, "kerosine")) || !(strcmp(value, "lpg")) || !(strcmp(value, "benzine")) || !(strcmp(value, "diesel"))) {
-        //printf(value);
-        printf("Geldige brandstof: %s \n", value);
-    } else {
-		printf("Ongeldige brandstof. Voer een geldige brandstof in.\n");
+    char invoer[100];
+    char key[100];
+    char value[100];
+
+    while (1) {
+        printf("Voer iets in: \n");
+        scanf(" %99[^\n]", invoer);
+        sscanf(invoer, "%s : %s", key, value);
+
+        float temp;
+        if (sscanf(value, "%f", &temp) == 1) {
+            printf("Geldige numerieke waarde: %.1f\n", temp);
+            break;
+        }
+
+        if (strcmp(key, "Brandstof") == 0) {
+            if (!(strcmp(value, "kerosine")) ||
+                !(strcmp(value, "lpg")) ||
+                !(strcmp(value, "benzine")) ||
+                !(strcmp(value, "diesel"))) {
+                printf("Geldige brandstof: %s\n", value);
+                break;
+            }
+            else {
+                printf("Ongeldige brandstof. Voer opnieuw in.\n");
+            }
+        }
+        else {
+            printf("Ongeldige invoer. Voer opnieuw in.\n");
+        }
     }
 }
 
@@ -67,16 +85,13 @@ void opdracht4() {
         int goals_against;
         char tegenstander[50];
     };
-
     struct Match matches[36];
     int count = 0;
-
     FILE* fp = fopen("uitslagen.txt", "r");
     if (fp == NULL) {
         printf("Cannot open file!\n");
         return;
     }
-
     while (fscanf(fp, "%s %d - %d %s",
         matches[count].location,
         &matches[count].goals_for,
@@ -85,20 +100,16 @@ void opdracht4() {
         count++;
     }
     fclose(fp);
-
     for(int i = 0; i < count; i++) {
         printf("Tegenstander: %s\n", matches[i].tegenstander);
     }
-
     typedef struct {
         int games;
         int points;
         int goals_for;
         int goals_against;
     } Stats;
-
     Stats stats = { 0, 0, 0, 0 };  // initialize everything to 0
-
     for (int i = 0; i < count; i++) {
         stats.games++;
         stats.goals_for += matches[i].goals_for;
@@ -112,15 +123,12 @@ void opdracht4() {
         }
         // loss = 0 points
     }
-
     printf("%d wedstrijden, %d punten en doelsaldo (%d-%d)\n",
         stats.games, stats.points,
         stats.goals_for, stats.goals_against);
-
     char search[50];
     printf("Voer een tegenstander in: ");
     scanf("%s", search);
-
     int found = 0;
     for (int i = 0; i < count; i++) {
         if (strcmp(matches[i].tegenstander, search) == 0) {
@@ -137,7 +145,7 @@ void opdracht4() {
                 printf("Draw against %s (%d-%d)\n", search,
                     matches[i].goals_for, matches[i].goals_against);
             }
-            break;
+            return;
         }
     }
     if (!found) {
@@ -149,8 +157,8 @@ int main()
 {
 	//opdracht1();
 	//opdracht2();
- //   opdracht3();
-	opdracht4();
+    opdracht3();
+	//opdracht4();
     return 0;
 }
 
