@@ -143,12 +143,10 @@ struct teamlid {
     char naam[20];
     char opleiding[10];
 };
-
 int generatieId() {
     static int id = 1000;
     return id++;
 }
-
 void voegTeamlidToe(struct teamlid* lid) {
     lid->id = generatieId();
     printf("Naam: ");
@@ -156,7 +154,6 @@ void voegTeamlidToe(struct teamlid* lid) {
     printf("Opleiding: ");
     scanf(" %s", lid->opleiding);
 }
-
 void zoekOpOpleiding(struct teamlid* team, int size) {
     char zoekOpleiding[10];
     printf("Voer de opleiding in om op te zoeken: ");
@@ -166,7 +163,8 @@ void zoekOpOpleiding(struct teamlid* team, int size) {
     int gevonden = 0;
     for (int i = 0; i < size; i++) {
         if (strcmp(team[i].opleiding, zoekOpleiding) == 0) {
-            printf("ID: %d | Naam: %s | Opleiding: %s\n", team[i].id, team[i].naam, team[i].opleiding);
+            printf("ID: %d | Naam: %s | Opleiding: %s\n",
+                team[i].id, team[i].naam, team[i].opleiding);
             gevonden = 1;
         }
     }
@@ -174,33 +172,29 @@ void zoekOpOpleiding(struct teamlid* team, int size) {
         printf("Geen teamleden gevonden met opleiding %s.\n", zoekOpleiding);
     }
 }
-
 void opdracht4() {
     int aantalLeden;
     printf("Hoeveel teamleden wilt u toevoegen? ");
     scanf(" %d", &aantalLeden);
-
     struct teamlid* team = malloc(aantalLeden * sizeof(struct teamlid));
     for (int i = 0; i < aantalLeden; i++) {
         printf("\n--- Teamlid %d ---\n", i + 1);
         voegTeamlidToe(&team[i]);
     }
-
     printf("\nHet team:\n");
     for (int i = 0; i < aantalLeden; i++) {
-        printf("ID: %d | Naam: %s | Opleiding: %s\n", team[i].id, team[i].naam, team[i].opleiding);
+        printf("ID: %d | Naam: %s | Opleiding: %s\n", 
+            team[i].id, team[i].naam, team[i].opleiding);
     }
-
     zoekOpOpleiding(team, aantalLeden);
-
     free(team);
 }
 
 int main()
 {
     //opdracht1();
-    opdracht2();
-    //opdracht3();
+    //opdracht2();
+    opdracht3();
     //opdracht4();
 }
 
