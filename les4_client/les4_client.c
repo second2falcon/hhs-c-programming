@@ -4,7 +4,7 @@
 #pragma comment(lib, "Ws2_32.lib")
 #pragma warning(disable : 4996)
 #define PORT 5000
-#define BUFLEN 512
+#define BUFLEN 81920000
 
 void opdracht1_client() {
     WSADATA wsaData;
