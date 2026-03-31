@@ -28,7 +28,7 @@ void opdracht1a(int sudoku[ROWS][COLS], const char* bestandsnaam)
     }
 }
 
-bool opdracht1b(int sudoku[ROWS][COLS])
+bool opdracht1b(int sudoku[ROWS][COLS]/*,bool rijmetfouten[9]*/)
 {
     bool geldig = true;
     for (int r = 0; r < ROWS; r++)
@@ -38,26 +38,28 @@ bool opdracht1b(int sudoku[ROWS][COLS])
             som += sudoku[r][c];
         if (som != 45)
         {
-            printf("Fout in rij %d (som = %d)\n", r + 1, som);
+            // printf("Fout in rij %d (som = %d)\n", r + 1, som);
             geldig = false;
         }
     }
-    if (geldig)
-        printf("Alle rijen correct (som = 45)\n");
     return geldig;
 }
 
-bool opdracht1c(int* kolom, int kolomIndex)
+bool opdracht1c(int sudoku[ROWS][COLS])
 {
-    int som = 0;
-    for (int r = 0; r < ROWS; r++)
-        som += kolom[r];
-    if (som != 45)
+    bool geldig = true;
+    for (int c = 0; c < COLS; c++)
     {
-        printf("Fout in kolom %d (som = %d)\n", kolomIndex + 1, som);
-        return false;
+        int som = 0;
+        for (int r = 0; r < ROWS; r++)
+            som += sudoku[r][c];
+        if (som != 45)
+        {
+            // printf("Fout in kolom %d (som = %d)\n", c + 1, som);
+            geldig = false;
+        }
     }
-    return true;
+    return geldig;
 }
 
 bool opdracht1d(int sudoku[ROWS][COLS])
@@ -73,35 +75,42 @@ bool opdracht1d(int sudoku[ROWS][COLS])
                     som += sudoku[blokRij * 3 + r][blokKol * 3 + c];
             if (som != 45)
             {
-                printf("Fout in blok (%d,%d) (som = %d)\n",
-                    blokRij + 1, blokKol + 1, som);
+                // printf("Fout in blok (%d,%d) (som = %d)\n", blokRij + 1, blokKol + 1, som);
                 geldig = false;
             }
         }
     }
-    if (geldig)
-        printf("Alle blokken correct (som = 45)\n");
+    // if (geldig)
+    //     printf("Alle blokken correct (som = 45)\n");
     return geldig;
 }
 
 void opdracht1(void)
 {
     int sudoku[ROWS][COLS];
-    opdracht1a(sudoku, "sudoku.txt");
+    opdracht1a(sudoku, "sudoku_fout_blok.txt");
     printf("\n");
-    opdracht1b(sudoku);
-    bool kolommenOk = true;
-    for (int c = 0; c < COLS; c++)
-    {
-        int kolom[ROWS];
-        for (int r = 0; r < ROWS; r++)
-            kolom[r] = sudoku[r][c];
-        if (!opdracht1c(kolom, c))
-            kolommenOk = false;
-    }
+    
+    // Rijen check
+    bool rijenOk = opdracht1b(sudoku);
+    if (rijenOk)
+        printf("Alle rijen correct (som = 45)\n");
+    else
+        printf("Fout in rij (som != 45)\n");
+        
+    // Kolommen check
+    bool kolommenOk = opdracht1c(sudoku);
     if (kolommenOk)
         printf("Alle kolommen correct (som = 45)\n");
-    opdracht1d(sudoku);
+    else
+        printf("Fout in kolom (som != 45)\n");
+        
+    // Blokken check
+    bool blokkenOk = opdracht1d(sudoku);
+    if (blokkenOk)
+        printf("Alle blokken correct (som = 45)\n");
+    else
+        printf("Fout in blok (som != 45)\n");
 }
 
 int main()
